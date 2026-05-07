@@ -57,11 +57,11 @@ export default function VideoPopupButton({ url, label, isAudio = false, coverIma
               {isAudio ? (
                 <div className="flex flex-col items-center gap-0">
                   {coverImage && (
-                    <div className="w-full h-64 overflow-hidden">
+                    <div className="w-full h-72 overflow-hidden">
                       <img
                         src={coverImage}
                         alt=""
-                        className="w-full h-full object-cover object-top"
+                        className="w-full h-full object-cover object-center"
                       />
                     </div>
                   )}

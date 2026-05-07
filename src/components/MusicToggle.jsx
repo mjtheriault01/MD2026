@@ -34,8 +34,6 @@ export default function MusicToggle() {
   const [volume, setVolume] = useState(0.6)
   const [showVolume, setShowVolume] = useState(false)
   const audioRef = useRef(null)
-  const savedVolumeRef = useRef(0.6)
-  const duckedRef = useRef(false)
 
   // Autoplay on mount — try immediately (works if password gate click is recent),
   // then fall back to first scroll/tap/click if browser blocks it
@@ -67,26 +65,31 @@ export default function MusicToggle() {
     }
   }, [])
 
-  // Listen for video hover events to duck the music
+  // Pause music when any video plays, resume when all videos stop
   useEffect(() => {
-    const duck = () => {
-      if (!audioRef.current || duckedRef.current) return
-      duckedRef.current = true
-      savedVolumeRef.current = audioRef.current.volume
-      audioRef.current.volume = Math.min(audioRef.current.volume * 0.15, 0.08)
+    const playingRef = { current: false }
+    const videoCountRef = { current: 0 }
+
+    const syncPlaying = () => { playingRef.current = playing }
+    syncPlaying()
+
+    const onVideoStart = () => {
+      videoCountRef.current++
+      if (audioRef.current) audioRef.current.pause()
     }
-    const unduck = () => {
-      if (!audioRef.current || !duckedRef.current) return
-      duckedRef.current = false
-      audioRef.current.volume = savedVolumeRef.current
+    const onVideoEnd = () => {
+      videoCountRef.current = Math.max(0, videoCountRef.current - 1)
+      if (videoCountRef.current === 0 && playing) {
+        audioRef.current?.play().catch(() => {})
+      }
     }
-    window.addEventListener('videoHoverStart', duck)
-    window.addEventListener('videoHoverEnd', unduck)
+    window.addEventListener('videoPlayStart', onVideoStart)
+    window.addEventListener('videoPlayEnd', onVideoEnd)
     return () => {
-      window.removeEventListener('videoHoverStart', duck)
-      window.removeEventListener('videoHoverEnd', unduck)
+      window.removeEventListener('videoPlayStart', onVideoStart)
+      window.removeEventListener('videoPlayEnd', onVideoEnd)
     }
-  }, [])
+  }, [playing])
 
   const toggle = () => {
     if (!audioRef.current) return
@@ -101,8 +104,7 @@ export default function MusicToggle() {
   const handleVolume = (e) => {
     const v = parseFloat(e.target.value)
     setVolume(v)
-    savedVolumeRef.current = v
-    if (audioRef.current && !duckedRef.current) audioRef.current.volume = v
+    if (audioRef.current) audioRef.current.volume = v
   }
 
   return (

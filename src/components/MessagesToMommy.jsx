@@ -1,6 +1,17 @@
 import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { messagesToMommy } from '../data/galleryData'
+import { messagesToMommy, specialMessages } from '../data/galleryData'
+import VideoPopupButton from './VideoPopupButton'
+
+const HALLIE_COVER = 'https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,c_fill,g_faces,z_0.8,w_600,h_700/md26/tay_and_hallie_tub_hallie_smile'
+
+function BigPlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="white" className="w-10 h-10 drop-shadow-lg">
+      <path d="M8 5v14l11-7L8 5z" />
+    </svg>
+  )
+}
 
 function MuteIcon() {
   return (
@@ -19,11 +30,34 @@ function SoundIcon() {
   )
 }
 
-function MessageVideoTile({ src, label, accent = 'rose' }) {
+function MessageVideoTile({ src, label, accent = 'rose', aspectRatio = '9/16' }) {
   const videoRef = useRef(null)
-  const [muted, setMuted] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [muted, setMuted] = useState(false)
   const [vol, setVol] = useState(0.9)
   const [showVol, setShowVol] = useState(false)
+  const isAuto = aspectRatio === 'auto'
+
+  const togglePlay = (e) => {
+    e?.stopPropagation()
+    if (!videoRef.current) return
+    if (isPlaying) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+      window.dispatchEvent(new CustomEvent('videoPlayEnd'))
+    } else {
+      videoRef.current.muted = muted
+      videoRef.current.volume = vol
+      videoRef.current.play().catch(() => {})
+      setIsPlaying(true)
+      window.dispatchEvent(new CustomEvent('videoPlayStart'))
+    }
+  }
+
+  const handleEnded = () => {
+    setIsPlaying(false)
+    window.dispatchEvent(new CustomEvent('videoPlayEnd'))
+  }
 
   const toggleMute = (e) => {
     e.stopPropagation()
@@ -47,8 +81,10 @@ function MessageVideoTile({ src, label, accent = 'rose' }) {
     rose:   { ring: 'ring-rose-300/60',    btn: 'bg-rose-500/80',    dot: 'bg-rose-400' },
     mint:   { ring: 'ring-emerald-300/60', btn: 'bg-emerald-600/80', dot: 'bg-emerald-400' },
     blue:   { ring: 'ring-blue-300/60',    btn: 'bg-blue-600/80',    dot: 'bg-blue-400' },
+    purple: { ring: 'ring-purple-300/60',  btn: 'bg-purple-600/80',  dot: 'bg-purple-400' },
   }
   const c = accentColors[accent]
+  const sliderColor = accent === 'rose' ? '#fb7185' : accent === 'mint' ? '#34d399' : accent === 'purple' ? '#a78bfa' : '#60a5fa'
 
   return (
     <motion.div
@@ -56,85 +92,114 @@ function MessageVideoTile({ src, label, accent = 'rose' }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-30px' }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative overflow-hidden rounded-2xl shadow-lg group ${c.ring} ring-2`}
-      style={{ aspectRatio: '9/16' }}
+      onClick={togglePlay}
+      className={`relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer ${c.ring} ring-2`}
+      style={isAuto ? undefined : { aspectRatio }}
     >
-      {/* Blurred background fill */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-60 pointer-events-none"
-      >
-        <source src={src} type="video/mp4" />
-      </video>
-      {/* Foreground — full video, no crop */}
+      {!isAuto && (
+        /* Blurred background fill — decorative, always plays */
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-60 pointer-events-none"
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      )}
+
+      {/* Foreground — controlled by user */}
       <video
         ref={videoRef}
-        autoPlay
-        muted
-        loop
+        muted={muted}
         playsInline
-        className="absolute inset-0 w-full h-full object-contain z-10"
+        onEnded={handleEnded}
+        className={
+          isAuto
+            ? 'w-full h-auto block'
+            : 'absolute inset-0 w-full h-full object-contain z-10'
+        }
       >
         <source src={src} type="video/mp4" />
       </video>
 
-      {/* Top label */}
-      <div className="absolute top-3 left-3 z-20">
-        <div className={`${c.btn} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5`}>
-          <div className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse`} />
-          <span className="text-white text-[11px] font-semibold tracking-wide">{label}</span>
-        </div>
-      </div>
+      {/* Play button overlay — shown when paused */}
+      <AnimatePresence>
+        {!isPlaying && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 z-30 flex items-center justify-center"
+          >
+            <div className="bg-black/40 backdrop-blur-sm rounded-full p-4 hover:bg-black/60 transition-colors">
+              <BigPlayIcon />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Volume controls */}
-      <div
-        className="absolute bottom-3 right-3 z-20 flex items-center gap-2"
-        onMouseEnter={() => setShowVol(true)}
-        onMouseLeave={() => setShowVol(false)}
-      >
-        <AnimatePresence>
-          {showVol && (
-            <motion.div
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: 72 }}
-              exit={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.15 }}
-              className="overflow-hidden"
-            >
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={muted ? 0 : vol}
-                onChange={handleVol}
-                onClick={(e) => e.stopPropagation()}
-                className="w-[72px] h-1 cursor-pointer"
-                style={{ accentColor: accent === 'rose' ? '#fb7185' : accent === 'mint' ? '#34d399' : '#60a5fa' }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <button
-          onClick={toggleMute}
-          className="bg-black/50 backdrop-blur-sm rounded-full p-2 hover:bg-black/70 transition-colors text-white"
+      {/* Top label — shown when playing */}
+      {isPlaying && (
+        <div className="absolute top-3 left-3 z-20">
+          <div className={`${c.btn} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse`} />
+            <span className="text-white text-[11px] font-semibold tracking-wide">{label}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Volume controls — shown when playing */}
+      {isPlaying && (
+        <div
+          className="absolute bottom-3 right-3 z-20 flex items-center gap-2"
+          onMouseEnter={() => setShowVol(true)}
+          onMouseLeave={() => setShowVol(false)}
         >
-          {muted ? <MuteIcon /> : <SoundIcon />}
-        </button>
-      </div>
+          <AnimatePresence>
+            {showVol && (
+              <motion.div
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 72 }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.15 }}
+                className="overflow-hidden"
+              >
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={muted ? 0 : vol}
+                  onChange={handleVol}
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-[72px] h-1 cursor-pointer"
+                  style={{ accentColor: sliderColor }}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <button
+            onClick={toggleMute}
+            className="bg-black/50 backdrop-blur-sm rounded-full p-2 hover:bg-black/70 transition-colors text-white"
+          >
+            {muted ? <MuteIcon /> : <SoundIcon />}
+          </button>
+        </div>
+      )}
     </motion.div>
   )
 }
 
 function GroupHeading({ emoji, name, accent }) {
   const colors = {
-    rose: 'text-rose-400',
-    mint: 'text-emerald-500',
-    blue: 'text-blue-500',
+    rose:   'text-rose-400',
+    mint:   'text-emerald-500',
+    blue:   'text-blue-500',
+    purple: 'text-purple-500',
   }
   return (
     <motion.div
@@ -178,7 +243,7 @@ export default function MessagesToMommy() {
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-amber-200" />
           </div>
           <p className="text-gray-400 max-w-md mx-auto text-base leading-relaxed">
-            From the three people who love you most — recorded just for you.
+            From the people who love you most — recorded just for you.
           </p>
         </motion.div>
 
@@ -192,21 +257,37 @@ export default function MessagesToMommy() {
           </div>
         </div>
 
-        {/* Hallie — 2 side by side */}
+        {/* Hallie — 2 side by side + Hallie Too soundbite */}
         <div className="mb-14">
           <GroupHeading emoji="🌿" name="Hallie" accent="mint" />
-          <div className="grid grid-cols-2 gap-3 max-w-md">
+          <div className="grid grid-cols-2 gap-3 max-w-2xl mb-5">
             {messagesToMommy.hallie.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" />
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio="auto" />
             ))}
+          </div>
+          <VideoPopupButton
+            url={specialMessages.hallie}
+            label="Hallie too ♡"
+            isAudio={true}
+            coverImage={HALLIE_COVER}
+          />
+        </div>
+
+        {/* Grammy */}
+        <div className="mb-14">
+          <GroupHeading emoji="💜" name="Grammy" accent="purple" />
+          <div className="max-w-xs">
+            <MessageVideoTile src={messagesToMommy.grammy} label="A message from Grammy" accent="purple" />
           </div>
         </div>
 
-        {/* Dad — single prominent video */}
+        {/* Dad */}
         <div>
           <GroupHeading emoji="💙" name="Dad" accent="blue" />
-          <div className="max-w-xs">
-            <MessageVideoTile src={messagesToMommy.dad} label="A message from Mike" accent="blue" />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-md">
+            {messagesToMommy.dad.map((v, i) => (
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="blue" />
+            ))}
           </div>
         </div>
       </div>

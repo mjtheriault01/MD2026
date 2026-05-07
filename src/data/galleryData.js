@@ -217,5 +217,8 @@ export const messagesToMommy = {
     { src: `${CDN_VIDEO}/${vid('hallie_1')}`, label: 'Message 1' },
     { src: `${CDN_VIDEO}/${vid('hallie_2')}`, label: 'Message 2' },
   ],
-  dad: `${CDN_VIDEO}/${vid('mikes_thoughts')}`,
+  grammy: `${CDN_VIDEO}/${vid('grammy_video')}`,
+  dad: [
+    { src: `${CDN_VIDEO}/${vid('mikes_thoughts')}`, label: 'A message from Mike' },
+  ],
 }

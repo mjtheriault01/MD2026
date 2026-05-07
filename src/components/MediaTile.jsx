@@ -18,19 +18,42 @@ function SoundIcon() {
   )
 }
 
-export default function MediaTile({ photo, index, rowSpan = false, animDelay = 5 }) {
+function BigPlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="white" className="w-8 h-8 drop-shadow-lg">
+      <path d="M8 5v14l11-7L8 5z" />
+    </svg>
+  )
+}
+
+export default function MediaTile({ photo, index, animDelay = 5 }) {
   const videoRef = useRef(null)
-  const [muted, setMuted] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [muted, setMuted] = useState(false)
   const [vol, setVol] = useState(0.8)
   const [showVol, setShowVol] = useState(false)
-  const isTall = rowSpan && photo.src.includes('h_800')
   const isVideo = photo.type === 'video'
 
-  const handleMouseEnter = () => {
-    if (isVideo) window.dispatchEvent(new CustomEvent('videoHoverStart'))
+  const togglePlay = (e) => {
+    if (!isVideo) return
+    e?.stopPropagation()
+    if (!videoRef.current) return
+    if (isPlaying) {
+      videoRef.current.pause()
+      setIsPlaying(false)
+      window.dispatchEvent(new CustomEvent('videoPlayEnd'))
+    } else {
+      videoRef.current.muted = muted
+      videoRef.current.volume = vol
+      videoRef.current.play().catch(() => {})
+      setIsPlaying(true)
+      window.dispatchEvent(new CustomEvent('videoPlayStart'))
+    }
   }
-  const handleMouseLeave = () => {
-    if (isVideo) window.dispatchEvent(new CustomEvent('videoHoverEnd'))
+
+  const handleEnded = () => {
+    setIsPlaying(false)
+    window.dispatchEvent(new CustomEvent('videoPlayEnd'))
   }
 
   const toggleMute = (e) => {
@@ -57,16 +80,13 @@ export default function MediaTile({ photo, index, rowSpan = false, animDelay = 5
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: (index % animDelay) * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={`relative overflow-hidden rounded-2xl group cursor-pointer
-        ${isTall ? 'row-span-2' : ''}
-        ${isVideo ? 'col-span-2 row-span-2' : ''}
-      `}
+      onClick={isVideo ? togglePlay : undefined}
+      className={`relative overflow-hidden rounded-2xl group ${isVideo ? 'cursor-pointer' : ''} ${isVideo ? 'col-span-2' : ''}`}
+      style={isVideo ? { aspectRatio: '9/16' } : undefined}
     >
       {isVideo ? (
         <>
-          {/* Blurred background fill */}
+          {/* Blurred background fill — decorative, always plays */}
           <video
             autoPlay
             muted
@@ -77,13 +97,13 @@ export default function MediaTile({ photo, index, rowSpan = false, animDelay = 5
           >
             <source src={photo.src} type="video/mp4" />
           </video>
-          {/* Foreground — full video, no cropping */}
+          {/* Foreground — controlled by user */}
           <video
             ref={videoRef}
-            autoPlay
-            muted
+            muted={muted}
             loop
             playsInline
+            onEnded={handleEnded}
             className="absolute inset-0 w-full h-full object-contain z-10"
           >
             <source src={photo.src} type="video/mp4" />
@@ -91,41 +111,60 @@ export default function MediaTile({ photo, index, rowSpan = false, animDelay = 5
           {/* Purple ring */}
           <div className="absolute inset-0 rounded-2xl ring-2 ring-purple-300/70 pointer-events-none z-20" />
 
-          {/* Volume control — always visible on video tiles */}
-          <div
-            className="absolute bottom-2 right-2 z-30 flex items-center gap-1.5"
-            onMouseEnter={() => setShowVol(true)}
-            onMouseLeave={() => setShowVol(false)}
-          >
-            <AnimatePresence>
-              {showVol && (
-                <motion.div
-                  initial={{ opacity: 0, width: 0 }}
-                  animate={{ opacity: 1, width: 64 }}
-                  exit={{ opacity: 0, width: 0 }}
-                  transition={{ duration: 0.18 }}
-                  className="overflow-hidden"
-                >
-                  <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.05"
-                    value={muted ? 0 : vol}
-                    onChange={handleVol}
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-16 h-1 accent-purple-400 cursor-pointer"
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <button
-              onClick={toggleMute}
-              className="bg-black/50 backdrop-blur-sm rounded-full p-1.5 hover:bg-black/70 transition-colors"
+          {/* Play button overlay */}
+          <AnimatePresence>
+            {!isPlaying && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 z-30 flex items-center justify-center"
+              >
+                <div className="bg-black/40 backdrop-blur-sm rounded-full p-4 group-hover:bg-black/60 transition-colors">
+                  <BigPlayIcon />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Volume control — only shown when playing */}
+          {isPlaying && (
+            <div
+              className="absolute bottom-2 right-2 z-30 flex items-center gap-1.5"
+              onMouseEnter={() => setShowVol(true)}
+              onMouseLeave={() => setShowVol(false)}
             >
-              {muted ? <MuteIcon /> : <SoundIcon />}
-            </button>
-          </div>
+              <AnimatePresence>
+                {showVol && (
+                  <motion.div
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 64 }}
+                    exit={{ opacity: 0, width: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="overflow-hidden"
+                  >
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={muted ? 0 : vol}
+                      onChange={handleVol}
+                      onClick={(e) => e.stopPropagation()}
+                      className="w-16 h-1 accent-purple-400 cursor-pointer"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <button
+                onClick={toggleMute}
+                className="bg-black/50 backdrop-blur-sm rounded-full p-1.5 hover:bg-black/70 transition-colors"
+              >
+                {muted ? <MuteIcon /> : <SoundIcon />}
+              </button>
+            </div>
+          )}
 
           {/* Video badge */}
           <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
@@ -139,7 +178,7 @@ export default function MediaTile({ photo, index, rowSpan = false, animDelay = 5
         <img
           src={photo.src}
           alt={photo.caption}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
         />
       )}
 

@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import { momPhotos, specialMessages } from '../data/galleryData'
-import VideoPopupButton from './VideoPopupButton'
+import { momPhotos } from '../data/galleryData'
 import MediaTile from './MediaTile'
 
 export default function MomSection() {
@@ -27,26 +26,15 @@ export default function MomSection() {
         <p className="text-gray-400 max-w-lg mx-auto text-base leading-relaxed mb-8">
           Watching you be their mom is the greatest gift we've ever been given.
         </p>
-
-        {/* Grammy message button */}
-        <div className="flex justify-center">
-          <VideoPopupButton
-            url={specialMessages.grammy}
-            label="A message from Grammy"
-          />
-        </div>
       </motion.div>
 
       {/* Masonry grid */}
       <div
         className="grid gap-3 px-4 sm:px-6"
-        style={{
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gridAutoRows: '200px',
-        }}
+        style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
       >
         {momPhotos.map((photo, i) => (
-          <MediaTile key={i} photo={photo} index={i} rowSpan animDelay={5} />
+          <MediaTile key={i} photo={photo} index={i} animDelay={5} />
         ))}
       </div>
     </section>

@@ -5,7 +5,6 @@ import MaldivesGallery from './components/MaldivesGallery'
 import CladdaghDot from './components/CladdaghDot'
 import Countdown from './components/Countdown'
 import MusicToggle from './components/MusicToggle'
-import DadsMessage from './components/DadsMessage'
 import PasswordGate from './components/PasswordGate'
 import MomSection from './components/MomSection'
 import MessagesToMommy from './components/MessagesToMommy'
@@ -170,7 +169,6 @@ export default function App() {
     <PasswordGate>
       <div className="min-h-screen font-sans" style={{ backgroundColor: '#faf9f6' }}>
         <MusicToggle />
-        <DadsMessage />
 
         {/* Hero + pre-Maldives timeline */}
         <div className="max-w-5xl mx-auto px-4 sm:px-8">
