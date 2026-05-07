@@ -14,6 +14,7 @@ export const milestones = [
     description:
       "A first date at Bien Trucha. Then on Halloween night at White Chocolate Grill, you were already wearing your claddagh ring — and I turned it around to show the world you were taken. The night our story officially started.",
     photos: [
+      `${CDN}/md26/1st_chicago_date`,
       `${CDN}/20171029_182842_rkh4la`,
       `${CDN}/20180610_132316_yyyrxq`,
       `${CDN}/20170805_172342_rqr73j`,
@@ -34,7 +35,10 @@ export const milestones = [
     subtitle: 'Diamond Lake — Where I Asked',
     description:
       'Our first ski trip together at Diamond Lake. At the end of the night, at the top of the hill under a beautiful winter sky, I got down on one knee. The next night — a private wine cellar at Corndance Tavern, just the two of us, celebrating forever.',
-    photos: promisePhotos,
+    photos: [
+      `${CDN}/md26/engagement_fabayan`,
+      ...promisePhotos,
+    ],
     mediaUrl: null,
     mediaType: 'image',
     gradient: ['#BAE6FD', '#7DD3FC', '#EFF6FF'],

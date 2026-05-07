@@ -9,12 +9,11 @@ const WIDE = `${CDN},w_1200,h_800`
 const CDN_VIDEO = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4'
 
 const md26  = (id) => `md26/${id}`
-const vid   = (id) => `md26_videos/${id}`
+const vid   = (id) => `md26_videos/${id}.mp4`
 
 // ─── Milestone carousel expansions ───────────────────────────────────────────
 
 export const sparkPhotos = [
-  `${CARD}/${md26('1st_chicago_date')}`,
   `${CARD}/${md26('big_rock_date')}`,
   `${CARD}/${md26('bears_game')}`,
   `${CARD}/${md26('cubs_game')}`,
@@ -30,7 +29,6 @@ export const promisePhotos = [
   `${CARD}/${md26('engagement_weekend_diamond_lake_snow_heart')}`,
   `${CARD}/${md26('engagement_dinner')}`,
   `${CARD}/${md26('endgagement_dinner_2')}`,
-  `${CARD}/${md26('engagement_fabayan')}`,
   `${CARD}/${md26('engagement_dt_naperville')}`,
   `${CARD}/${md26('engagement_photos_dt_naperville')}`,
 ]

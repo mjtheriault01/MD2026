@@ -61,24 +61,26 @@ function MessageVideoTile({ src, label, accent = 'rose' }) {
     >
       {/* Blurred background fill */}
       <video
-        src={src}
         autoPlay
         muted
         loop
         playsInline
         aria-hidden="true"
         className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-60 pointer-events-none"
-      />
+      >
+        <source src={src} type="video/mp4" />
+      </video>
       {/* Foreground — full video, no crop */}
       <video
         ref={videoRef}
-        src={src}
         autoPlay
         muted
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-contain z-10"
-      />
+      >
+        <source src={src} type="video/mp4" />
+      </video>
 
       {/* Top label */}
       <div className="absolute top-3 left-3 z-20">

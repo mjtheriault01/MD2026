@@ -68,24 +68,26 @@ export default function MediaTile({ photo, index, rowSpan = false, animDelay = 5
         <>
           {/* Blurred background fill */}
           <video
-            src={photo.src}
             autoPlay
             muted
             loop
             playsInline
             aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70 pointer-events-none"
-          />
-          {/* Foreground — full video, no cropping (no 'relative' here — that caused the display bug) */}
+          >
+            <source src={photo.src} type="video/mp4" />
+          </video>
+          {/* Foreground — full video, no cropping */}
           <video
             ref={videoRef}
-            src={photo.src}
             autoPlay
             muted
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-contain z-10"
-          />
+          >
+            <source src={photo.src} type="video/mp4" />
+          </video>
           {/* Purple ring */}
           <div className="absolute inset-0 rounded-2xl ring-2 ring-purple-300/70 pointer-events-none z-20" />
 

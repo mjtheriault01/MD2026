@@ -37,12 +37,34 @@ export default function MusicToggle() {
   const savedVolumeRef = useRef(0.6)
   const duckedRef = useRef(false)
 
-  // Autoplay on mount — works because password gate requires a click first
+  // Autoplay on mount — try immediately (works if password gate click is recent),
+  // then fall back to first scroll/tap/click if browser blocks it
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
     audio.volume = 0.6
-    audio.play().then(() => setPlaying(true)).catch(() => {})
+
+    const tryPlay = () => {
+      audio.play().then(() => setPlaying(true)).catch(() => {})
+    }
+
+    tryPlay()
+
+    const onInteraction = () => {
+      if (!playing) tryPlay()
+      document.removeEventListener('click', onInteraction)
+      document.removeEventListener('scroll', onInteraction)
+      document.removeEventListener('touchstart', onInteraction)
+    }
+    document.addEventListener('click', onInteraction, { once: true })
+    document.addEventListener('scroll', onInteraction, { once: true })
+    document.addEventListener('touchstart', onInteraction, { once: true })
+
+    return () => {
+      document.removeEventListener('click', onInteraction)
+      document.removeEventListener('scroll', onInteraction)
+      document.removeEventListener('touchstart', onInteraction)
+    }
   }, [])
 
   // Listen for video hover events to duck the music
