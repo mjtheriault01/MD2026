@@ -6,7 +6,7 @@ const SQ   = `${CDN_FACE},w_600,h_600`
 const TALL = `${CDN_FACE},w_600,h_800`
 const WIDE = `${CDN},w_1200,h_800`
 
-const CDN_VIDEO = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_auto'
+const CDN_VIDEO = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4'
 
 const md26  = (id) => `md26/${id}`
 const vid   = (id) => `md26_videos/${id}`
@@ -89,9 +89,9 @@ export const maldivesPhotos = [
   { src: `${WIDE}/${md26('maldives_most_beautiful_woman_bridgett')}`,   label: 'The most beautiful woman' },
   { src: `${WIDE}/${md26('maldives_us')}`,                              label: 'Us' },
   { src: `${WIDE}/${md26('maldives_matching_shirts')}`,                 label: 'Matching' },
-  { src: `https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,e_improve:50,e_vibrance:20,e_sharpen:50,c_fill,g_faces,w_1200,h_800/${md26('maldives_5_8')}`,  label: 'Hurawalhi' },
-  { src: `https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,e_improve:50,e_vibrance:20,e_sharpen:50,c_fill,g_faces,w_1200,h_800/${md26('maldives_5_8_2')}`, label: 'Hurawalhi' },
-  { src: `https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,e_improve:50,e_vibrance:20,e_sharpen:50,c_fill,g_faces,w_1200,h_800/${md26('maldives_5_8_3')}`, label: 'Hurawalhi' },
+  { src: `https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,e_improve:50,e_vibrance:20,e_sharpen:50,c_fill,g_auto,w_1200,h_800/${md26('maldives_5_8')}`,  label: 'Hurawalhi' },
+  { src: `https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,e_improve:50,e_vibrance:20,e_sharpen:50,c_fill,g_auto,w_1200,h_800/${md26('maldives_5_8_2')}`, label: 'Hurawalhi' },
+  { src: `https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,e_improve:50,e_vibrance:20,e_sharpen:50,c_fill,g_auto,w_1200,h_800/${md26('maldives_5_8_3')}`, label: 'Hurawalhi' },
   { src: `${WIDE}/${md26('maldives_5_8_night')}`,                       label: 'Hurawalhi at night' },
   { src: `${WIDE}/${md26('maldives_kashibo_dinner')}`,                  label: 'Kashibo dinner' },
   { src: `${WIDE}/${md26('maldives_dolphin_cruse')}`,                   label: 'Dolphin cruise' },
@@ -145,13 +145,6 @@ export const momPhotos = [
   { src: `${SQ}/${md26('hallie_bridge')}`,                          caption: 'Hallie & Bridgett', type: 'image' },
   { src: `${TALL}/${md26('momma_taylor_backyard_summer')}`,         caption: 'Backyard summer', type: 'image' },
   { src: `${SQ}/${md26('momma_taylor_boat_grants')}`,               caption: 'Boat day', type: 'image' },
-  // Special Mother's Day message videos
-  { src: `${CDN_VIDEO}/${vid('taylor_1')}`,                          caption: "Taylor's message for Mom ♡", type: 'video' },
-  { src: `${CDN_VIDEO}/${vid('taylor_2')}`,                          caption: 'Taylor again ♡', type: 'video' },
-  { src: `${CDN_VIDEO}/${vid('taylor_3')}`,                          caption: 'Taylor — one more thing ♡', type: 'video' },
-  { src: `${CDN_VIDEO}/${vid('taylor_4')}`,                          caption: 'Taylor ♡', type: 'video' },
-  { src: `${CDN_VIDEO}/${vid('hallie_1')}`,                          caption: 'Hallie ♡', type: 'video' },
-  { src: `${CDN_VIDEO}/${vid('hallie_2')}`,                          caption: 'Hallie again ♡', type: 'video' },
   // Memory videos
   { src: `${CDN_VIDEO}/${vid('bridgett_hallie_playtime')}`,         caption: 'Bridgett & Hallie', type: 'video' },
   { src: `${CDN_VIDEO}/${vid('taylor_baking_muffins_with_mom')}`,   caption: 'Baking muffins', type: 'video' },
@@ -209,7 +202,22 @@ export const specialMessages = {
   taylor1: `${CDN_VIDEO}/${vid('taylor_1')}`,
   taylor2: `${CDN_VIDEO}/${vid('taylor_2')}`,
   hallie:  `${CDN_VIDEO}/${vid('hallie_talking')}`,
-  // mike:  will be added after HandBrake compression
   img1478: `${CDN_VIDEO}/${vid('img_1478')}`,
   img3904: `${CDN_VIDEO}/${vid('img_3904')}`,
+}
+
+// ─── "Messages to Mommy" special section videos ───────────────────────────────
+
+export const messagesToMommy = {
+  taylor: [
+    { src: `${CDN_VIDEO}/${vid('taylor_1')}`, label: 'Message 1' },
+    { src: `${CDN_VIDEO}/${vid('taylor_2')}`, label: 'Message 2' },
+    { src: `${CDN_VIDEO}/${vid('taylor_3')}`, label: 'Message 3' },
+    { src: `${CDN_VIDEO}/${vid('taylor_4')}`, label: 'Message 4' },
+  ],
+  hallie: [
+    { src: `${CDN_VIDEO}/${vid('hallie_1')}`, label: 'Message 1' },
+    { src: `${CDN_VIDEO}/${vid('hallie_2')}`, label: 'Message 2' },
+  ],
+  dad: `${CDN_VIDEO}/${vid('mikes_thoughts')}`,
 }

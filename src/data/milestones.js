@@ -14,7 +14,6 @@ export const milestones = [
     description:
       "A first date at Bien Trucha. Then on Halloween night at White Chocolate Grill, you were already wearing your claddagh ring — and I turned it around to show the world you were taken. The night our story officially started.",
     photos: [
-      `${CDN}/20161229_140548_ijalup`,
       `${CDN}/20171029_182842_rkh4la`,
       `${CDN}/20180610_132316_yyyrxq`,
       `${CDN}/20170805_172342_rqr73j`,
@@ -47,7 +46,7 @@ export const milestones = [
     id: 3,
     date: 'Dec 12, 2020',
     title: 'The Union',
-    subtitle: 'Our Intimate COVID Wedding',
+    subtitle: 'Our Intimate Wedding',
     description:
       'Small, perfect, and entirely us — surrounded only by the people who mattered most, at The Harrington. Intimate, intentional, and exactly what it was always meant to be.',
     photos: [

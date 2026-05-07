@@ -37,6 +37,14 @@ export default function MusicToggle() {
   const savedVolumeRef = useRef(0.6)
   const duckedRef = useRef(false)
 
+  // Autoplay on mount — works because password gate requires a click first
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.volume = 0.6
+    audio.play().then(() => setPlaying(true)).catch(() => {})
+  }, [])
+
   // Listen for video hover events to duck the music
   useEffect(() => {
     const duck = () => {

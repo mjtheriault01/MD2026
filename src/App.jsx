@@ -8,6 +8,7 @@ import MusicToggle from './components/MusicToggle'
 import DadsMessage from './components/DadsMessage'
 import PasswordGate from './components/PasswordGate'
 import MomSection from './components/MomSection'
+import MessagesToMommy from './components/MessagesToMommy'
 import AdventuresStrip from './components/AdventuresStrip'
 import GirlsSection from './components/GirlsSection'
 import WeddingLetter from './components/WeddingLetter'
@@ -204,6 +205,9 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 sm:px-8">
           <MomSection />
         </div>
+
+        {/* Messages to Mommy */}
+        <MessagesToMommy />
 
         {/* Our Adventures */}
         <div className="max-w-full">
