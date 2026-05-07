@@ -103,7 +103,7 @@ export default function TimelineCard({ milestone, fromLeft }) {
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
       className="bg-white rounded-2xl shadow-lg border border-rose-50 overflow-hidden
-                 hover:shadow-xl transition-shadow duration-300 max-w-lg w-full"
+                 hover:shadow-xl transition-shadow duration-300 max-w-xl w-full"
     >
       {/* Media — taller so portrait photos show faces */}
       <div className="relative h-72 sm:h-80 overflow-hidden">
