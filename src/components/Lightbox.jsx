@@ -125,8 +125,8 @@ export default function Lightbox() {
           {/* Caption + counter */}
           <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col items-center gap-1 pb-6 pt-10 pointer-events-none"
                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)' }}>
-            {photo.caption && (
-              <p className="text-white text-sm font-medium tracking-wide drop-shadow">{photo.caption}</p>
+            {(photo.caption || photo.label) && (
+              <p className="text-white text-sm font-medium tracking-wide drop-shadow">{photo.caption || photo.label}</p>
             )}
             {state.photos.length > 1 && (
               <p className="text-white/45 text-xs tabular-nums">{state.index + 1} / {state.photos.length}</p>

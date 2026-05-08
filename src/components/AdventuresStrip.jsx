@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { adventures } from '../data/galleryData'
+import { useLightbox } from '../context/LightboxContext'
 
 function ChevronLeft() {
   return (
@@ -17,14 +18,15 @@ function ChevronRight() {
   )
 }
 
-function AdventureCard({ item, index }) {
+function AdventureCard({ item, index, onClick }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: 40 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex-shrink-0 w-72 sm:w-80 h-52 sm:h-60 rounded-2xl overflow-hidden group"
+      onClick={onClick}
+      className="relative flex-shrink-0 w-72 sm:w-80 h-52 sm:h-60 rounded-2xl overflow-hidden group cursor-zoom-in"
     >
       <img
         src={item.src}
@@ -35,12 +37,22 @@ function AdventureCard({ item, index }) {
       <p className="absolute bottom-3 left-4 text-white text-sm font-semibold tracking-wide">
         {item.label}
       </p>
+      {/* Zoom hint */}
+      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="bg-black/40 backdrop-blur-sm rounded-full p-1.5">
+          <svg viewBox="0 0 20 20" fill="white" className="w-3.5 h-3.5">
+            <path d="M5 8a3 3 0 116 0A3 3 0 015 8zm8.56 5.56a1 1 0 01-1.41 0L10 11.41A5 5 0 1111.41 10l2.15 2.15a1 1 0 010 1.41z"/>
+          </svg>
+        </div>
+      </div>
     </motion.div>
   )
 }
 
 export default function AdventuresStrip() {
   const scrollRef = useRef(null)
+  const { openLightbox } = useLightbox()
+  const lightboxPhotos = adventures.map(a => ({ src: a.src, label: a.label }))
 
   const scroll = (dir) => {
     if (!scrollRef.current) return
@@ -104,7 +116,7 @@ export default function AdventuresStrip() {
         >
           {adventures.map((item, i) => (
             <div key={i} className="snap-start">
-              <AdventureCard item={item} index={i} />
+              <AdventureCard item={item} index={i} onClick={() => openLightbox(lightboxPhotos, i)} />
             </div>
           ))}
         </div>

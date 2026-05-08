@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLightbox } from '../context/LightboxContext'
 
 const SWIPE_THRESHOLD = 50
 
 export default function Carousel({ photos, alt = '' }) {
   const [index, setIndex] = useState(0)
   const [direction, setDirection] = useState(0)
+  const { openLightbox } = useLightbox()
+  const photoObjects = photos.map(src => ({ src }))
 
   const go = (next) => {
     setDirection(next > index ? 1 : -1)
@@ -27,7 +30,14 @@ export default function Carousel({ photos, alt = '' }) {
   }
 
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-t-2xl select-none">
+    <div className="relative w-full h-full overflow-hidden rounded-t-2xl select-none bg-gray-100">
+      {/* Blurred background fill so no empty bars show */}
+      <img
+        key={`bg-${index}`}
+        src={photos[index]}
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-60 pointer-events-none"
+      />
       <AnimatePresence initial={false} custom={direction}>
         <motion.img
           key={index}
@@ -43,7 +53,8 @@ export default function Carousel({ photos, alt = '' }) {
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.15}
           onDragEnd={handleDragEnd}
-          className="absolute inset-0 w-full h-full object-cover"
+          onClick={() => openLightbox(photoObjects, index)}
+          className="absolute inset-0 w-full h-full object-contain z-10 cursor-zoom-in"
         />
       </AnimatePresence>
 

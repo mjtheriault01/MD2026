@@ -16,6 +16,7 @@ import HeroBackground from './components/HeroBackground'
 import { milestones } from './data/milestones'
 import { LightboxProvider } from './context/LightboxContext'
 import Lightbox from './components/Lightbox'
+import ClosingLetter from './components/ClosingLetter'
 
 const featureMilestone = milestones.find((m) => m.isFeature)
 const beforeFeature = milestones.filter((m) => !m.isFeature && m.id < (featureMilestone?.id ?? Infinity))
@@ -159,7 +160,7 @@ function Footer() {
   return (
     <footer className="text-center py-14 border-t border-rose-100 mt-4">
       <p className="font-serif italic text-gray-300 text-xl mb-2">
-        "And still, after all this time..."
+        "You make us better than we were before, thank God we're yours"
       </p>
       <p className="text-gray-400 text-xs tracking-widest uppercase">Made with love ♡</p>
     </footer>
@@ -219,6 +220,11 @@ export default function App() {
         {/* The Girls */}
         <div className="max-w-6xl mx-auto px-4 sm:px-8">
           <GirlsSection />
+        </div>
+
+        {/* Closing letter from Mike */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-8">
+          <ClosingLetter />
         </div>
 
         {/* Countdown + Footer */}
