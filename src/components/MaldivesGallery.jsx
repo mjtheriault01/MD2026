@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { maldivesPhotos } from '../data/galleryData'
+import { useLightbox } from '../context/LightboxContext'
 
 function ChevronLeft() {
   return (
@@ -19,6 +20,8 @@ function ChevronRight() {
 
 export default function MaldivesGallery() {
   const scrollRef = useRef(null)
+  const { openLightbox } = useLightbox()
+  const lightboxPhotos = maldivesPhotos.map(p => ({ src: p.src, label: p.label }))
 
   const scroll = (dir) => {
     if (!scrollRef.current) return
@@ -63,7 +66,8 @@ export default function MaldivesGallery() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.05 }}
-            className="relative flex-shrink-0 w-64 sm:w-80 h-48 sm:h-56 rounded-xl overflow-hidden group"
+            onClick={() => openLightbox(lightboxPhotos, i)}
+            className="relative flex-shrink-0 w-64 sm:w-80 h-48 sm:h-56 rounded-xl overflow-hidden group cursor-zoom-in"
           >
             <img
               src={photo.src}
