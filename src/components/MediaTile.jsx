@@ -82,29 +82,18 @@ export default function MediaTile({ photo, index, animDelay = 5 }) {
       transition={{ duration: 0.55, delay: (index % animDelay) * 0.07, ease: [0.22, 1, 0.36, 1] }}
       onClick={isVideo ? togglePlay : undefined}
       className={`relative overflow-hidden rounded-2xl group ${isVideo ? 'cursor-pointer' : ''} ${isVideo ? 'col-span-2' : ''}`}
-      style={isVideo ? { aspectRatio: '9/16' } : undefined}
     >
       {isVideo ? (
         <>
-          {/* Blurred background fill — decorative, always plays */}
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70 pointer-events-none"
-          >
-            <source src={photo.src} type="video/mp4" />
-          </video>
-          {/* Foreground — controlled by user */}
+          {/* Video at its natural aspect ratio — no forced container */}
           <video
             ref={videoRef}
             muted={muted}
             loop
             playsInline
+            preload="metadata"
             onEnded={handleEnded}
-            className="absolute inset-0 w-full h-full object-contain z-10"
+            className="w-full h-auto block"
           >
             <source src={photo.src} type="video/mp4" />
           </video>

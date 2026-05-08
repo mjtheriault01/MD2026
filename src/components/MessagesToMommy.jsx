@@ -247,22 +247,22 @@ export default function MessagesToMommy() {
           </p>
         </motion.div>
 
-        {/* Taylor — 2-column landscape grid */}
+        {/* Taylor — 2×2 portrait grid, cards ~320px wide */}
         <div className="mb-24">
           <GroupHeading emoji="🎀" name="Taylor" accent="rose" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5" style={{ maxWidth: '1380px' }}>
             {messagesToMommy.taylor.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="rose" aspectRatio="16/9" />
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="rose" aspectRatio="9/16" />
             ))}
           </div>
         </div>
 
-        {/* Hallie — 2 side by side + Hallie Too soundbite */}
+        {/* Hallie — 2 portrait tiles + Hallie Too soundbite */}
         <div className="mb-24">
           <GroupHeading emoji="🌿" name="Hallie" accent="mint" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-2 gap-5 mb-8" style={{ maxWidth: '680px' }}>
             {messagesToMommy.hallie.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio="auto" />
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio="9/16" />
             ))}
           </div>
           <VideoPopupButton
@@ -273,23 +273,19 @@ export default function MessagesToMommy() {
           />
         </div>
 
-        {/* Grammy */}
-        <div className="mb-24">
-          <GroupHeading emoji="💜" name="Grammy" accent="purple" />
-          <div className="flex justify-start">
-            <div className="w-full max-w-sm">
-              <MessageVideoTile src={messagesToMommy.grammy} label="A message from Grammy" accent="purple" />
-            </div>
-          </div>
-        </div>
-
-        {/* Dad */}
+        {/* Grammy & Dad — side by side portrait tiles */}
         <div>
-          <GroupHeading emoji="💙" name="Dad" accent="blue" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
-            {messagesToMommy.dad.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="blue" />
-            ))}
+          <div className="grid grid-cols-2 gap-8" style={{ maxWidth: '680px' }}>
+            <div>
+              <GroupHeading emoji="💜" name="Grammy" accent="purple" />
+              <MessageVideoTile src={messagesToMommy.grammy} label="A message from Grammy" accent="purple" aspectRatio="9/16" />
+            </div>
+            <div>
+              <GroupHeading emoji="💙" name="Dad" accent="blue" />
+              {messagesToMommy.dad.map((v, i) => (
+                <MessageVideoTile key={i} src={v.src} label={v.label} accent="blue" aspectRatio="9/16" />
+              ))}
+            </div>
           </div>
         </div>
       </div>
