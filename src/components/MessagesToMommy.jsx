@@ -207,10 +207,10 @@ function GroupHeading({ emoji, name, accent }) {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="flex items-center gap-3 mb-5"
+      className="flex items-center gap-4 mb-8"
     >
-      <span className="text-2xl">{emoji}</span>
-      <h3 className={`font-serif text-2xl font-bold ${colors[accent]}`}>From {name}</h3>
+      <span className="text-3xl">{emoji}</span>
+      <h3 className={`font-serif text-3xl font-bold ${colors[accent]}`}>From {name}</h3>
       <div className={`flex-1 h-px bg-gradient-to-r from-current to-transparent opacity-20 ${colors[accent]}`} />
     </motion.div>
   )
@@ -219,48 +219,48 @@ function GroupHeading({ emoji, name, accent }) {
 export default function MessagesToMommy() {
   return (
     <section
-      className="py-20 sm:py-28 px-4 sm:px-8"
+      className="py-28 sm:py-40 px-6 sm:px-12"
       style={{ background: 'linear-gradient(160deg, #fff7ed 0%, #fdf2f8 50%, #f0f9ff 100%)' }}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-14"
+          className="text-center mb-20"
         >
-          <p className="text-amber-500 text-xs font-semibold uppercase tracking-[0.28em] mb-4">
+          <p className="text-amber-500 text-sm font-semibold uppercase tracking-[0.28em] mb-5">
             Straight from the heart
           </p>
-          <h2 className="font-serif text-4xl sm:text-6xl font-bold text-gray-800 leading-tight mb-4">
+          <h2 className="font-serif text-5xl sm:text-8xl font-bold text-gray-800 leading-tight mb-4">
             Messages to Mommy
           </h2>
-          <div className="flex items-center justify-center gap-4 mt-6 mb-6">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-amber-200" />
-            <span className="text-amber-400 text-xl">✉</span>
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-amber-200" />
+          <div className="flex items-center justify-center gap-4 mt-8 mb-8">
+            <div className="h-px w-20 bg-gradient-to-r from-transparent to-amber-200" />
+            <span className="text-amber-400 text-2xl">✉</span>
+            <div className="h-px w-20 bg-gradient-to-l from-transparent to-amber-200" />
           </div>
-          <p className="text-gray-400 max-w-md mx-auto text-base leading-relaxed">
+          <p className="text-gray-400 max-w-lg mx-auto text-lg leading-relaxed">
             From the people who love you most — recorded just for you.
           </p>
         </motion.div>
 
-        {/* Taylor — 2×2 grid */}
-        <div className="mb-14">
+        {/* Taylor — 2-column landscape grid */}
+        <div className="mb-24">
           <GroupHeading emoji="🎀" name="Taylor" accent="rose" />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {messagesToMommy.taylor.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="rose" />
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="rose" aspectRatio="16/9" />
             ))}
           </div>
         </div>
 
         {/* Hallie — 2 side by side + Hallie Too soundbite */}
-        <div className="mb-14">
+        <div className="mb-24">
           <GroupHeading emoji="🌿" name="Hallie" accent="mint" />
-          <div className="grid grid-cols-2 gap-3 max-w-2xl mb-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             {messagesToMommy.hallie.map((v, i) => (
               <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio="auto" />
             ))}
@@ -274,17 +274,19 @@ export default function MessagesToMommy() {
         </div>
 
         {/* Grammy */}
-        <div className="mb-14">
+        <div className="mb-24">
           <GroupHeading emoji="💜" name="Grammy" accent="purple" />
-          <div className="max-w-xs">
-            <MessageVideoTile src={messagesToMommy.grammy} label="A message from Grammy" accent="purple" />
+          <div className="flex justify-start">
+            <div className="w-full max-w-sm">
+              <MessageVideoTile src={messagesToMommy.grammy} label="A message from Grammy" accent="purple" />
+            </div>
           </div>
         </div>
 
         {/* Dad */}
         <div>
           <GroupHeading emoji="💙" name="Dad" accent="blue" />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-md">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
             {messagesToMommy.dad.map((v, i) => (
               <MessageVideoTile key={i} src={v.src} label={v.label} accent="blue" />
             ))}
