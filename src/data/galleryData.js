@@ -146,7 +146,7 @@ export const momPhotos = [
   { src: `${TALL}/${md26('momma_taylor_backyard_summer')}`,         caption: 'Backyard summer', type: 'image' },
   { src: `${SQ}/${md26('momma_taylor_boat_grants')}`,               caption: 'Boat day', type: 'image' },
   // Memory videos
-  { src: `${CDN_VIDEO}/${vid('taylor_mom_silly')}`,     caption: 'Bridgett & Taylor', type: 'video' },
+  { src: 'https://res.cloudinary.com/dikkdclum/video/upload/v1778249428/md26_videos/taylor_mom_silly.mp4', caption: 'Bridgett & Taylor', type: 'video' },
   { src: `${CDN_VIDEO}/${vid('taylor_baking_muffins_with_mom')}`,   caption: 'Baking muffins', type: 'video' },
   { src: `${CDN_VIDEO}/${vid('mom_tossing_tay_silly')}`,            caption: 'Being silly', type: 'video' },
 ]
@@ -216,8 +216,8 @@ export const messagesToMommy = {
     { src: `${CDN_VIDEO}/${vid('taylor_4')}`,     label: 'Message 4' },
   ],
   hallie: [
-    { src: `${CDN_VIDEO}/${vid('hallie_1')}`, label: 'Message 1' },
-    { src: `${CDN_VIDEO}/${vid('hallie_2')}`, label: 'Message 2' },
+    { src: 'https://res.cloudinary.com/dikkdclum/video/upload/v1778249224/md26_videos/hallie_1.mp4', label: 'Message 1' },
+    { src: 'https://res.cloudinary.com/dikkdclum/video/upload/v1778249298/md26_videos/hallie_2.mp4', label: 'Message 2' },
   ],
   grammy: `${CDN_VIDEO}/${vid('grammy_video')}`,
   dad: [
