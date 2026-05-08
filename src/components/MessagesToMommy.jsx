@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { messagesToMommy, specialMessages } from '../data/galleryData'
 import VideoPopupButton from './VideoPopupButton'
 
-const HALLIE_COVER = 'https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,c_fill,g_faces,z_0.8,w_600,h_700/md26/tay_and_hallie_tub_hallie_smile'
+const HALLIE_COVER = 'https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,c_fill,g_face,z_2.2,w_600,h_600/md26/tay_and_hallie_tub_hallie_smile'
 
 function BigPlayIcon() {
   return (
@@ -96,25 +96,15 @@ function MessageVideoTile({ src, label, accent = 'rose', aspectRatio = '9/16' })
       className={`relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer ${c.ring} ring-2`}
       style={isAuto ? undefined : { aspectRatio }}
     >
-      {!isAuto && (
-        /* Blurred background fill — decorative, always plays */
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-60 pointer-events-none"
-        >
-          <source src={src} type="video/mp4" />
-        </video>
-      )}
+      {/* Dark background — works for any video orientation, no stretch distortion */}
+      {!isAuto && <div className="absolute inset-0 bg-gray-950" />}
 
       {/* Foreground — controlled by user */}
       <video
         ref={videoRef}
         muted={muted}
         playsInline
+        preload="metadata"
         onEnded={handleEnded}
         className={
           isAuto
@@ -194,7 +184,7 @@ function MessageVideoTile({ src, label, accent = 'rose', aspectRatio = '9/16' })
   )
 }
 
-function GroupHeading({ emoji, name, accent }) {
+function GroupHeading({ emoji, name, accent, extra = null }) {
   const colors = {
     rose:   'text-rose-400',
     mint:   'text-emerald-500',
@@ -207,10 +197,11 @@ function GroupHeading({ emoji, name, accent }) {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="flex items-center gap-4 mb-8"
+      className="flex items-center gap-4 mb-8 flex-wrap"
     >
       <span className="text-3xl">{emoji}</span>
       <h3 className={`font-serif text-3xl font-bold ${colors[accent]}`}>From {name}</h3>
+      {extra}
       <div className={`flex-1 h-px bg-gradient-to-r from-current to-transparent opacity-20 ${colors[accent]}`} />
     </motion.div>
   )
@@ -257,20 +248,27 @@ export default function MessagesToMommy() {
           </div>
         </div>
 
-        {/* Hallie — 2 portrait tiles + Hallie Too soundbite */}
+        {/* Hallie — 2 portrait tiles + voice message bubble in heading */}
         <div className="mb-24">
-          <GroupHeading emoji="🌿" name="Hallie" accent="mint" />
-          <div className="grid grid-cols-2 gap-5 mb-8" style={{ maxWidth: '680px' }}>
+          <GroupHeading
+            emoji="🌿"
+            name="Hallie"
+            accent="mint"
+            extra={
+              <VideoPopupButton
+                url={specialMessages.hallie}
+                label="Hallie voice message for mommy"
+                isAudio={true}
+                coverImage={HALLIE_COVER}
+                className="border-emerald-200 text-emerald-600 text-xs px-3 py-1.5 flex-shrink-0"
+              />
+            }
+          />
+          <div className="grid grid-cols-2 gap-5" style={{ maxWidth: '680px' }}>
             {messagesToMommy.hallie.map((v, i) => (
               <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio="9/16" />
             ))}
           </div>
-          <VideoPopupButton
-            url={specialMessages.hallie}
-            label="Hallie too ♡"
-            isAudio={true}
-            coverImage={HALLIE_COVER}
-          />
         </div>
 
         {/* Grammy & Dad — side by side portrait tiles */}
