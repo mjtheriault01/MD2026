@@ -6,7 +6,9 @@ const SQ   = `${CDN_FACE},w_600,h_600`
 const TALL = `${CDN_FACE},w_600,h_800`
 const WIDE = `${CDN},w_1200,h_800`
 
-const CDN_VIDEO = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4'
+const CDN_VIDEO     = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4'
+const CDN_VIDEO_916 = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,ar_9:16,c_pad,b_black'
+const CDN_VIDEO_169 = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,ar_16:9,c_pad,b_black'
 
 const md26  = (id) => `md26/${id}`
 const vid   = (id) => `md26_videos/${id}.mp4`
@@ -144,7 +146,7 @@ export const momPhotos = [
   { src: `${TALL}/${md26('momma_taylor_backyard_summer')}`,         caption: 'Backyard summer', type: 'image' },
   { src: `${SQ}/${md26('momma_taylor_boat_grants')}`,               caption: 'Boat day', type: 'image' },
   // Memory videos
-  { src: `${CDN_VIDEO}/${vid('bridgett_hallie_playtime')}`,         caption: 'Bridgett & Hallie', type: 'video' },
+  { src: `${CDN_VIDEO_169}/${vid('bridgett_hallie_playtime')}`,     caption: 'Bridgett & Hallie', type: 'video' },
   { src: `${CDN_VIDEO}/${vid('taylor_baking_muffins_with_mom')}`,   caption: 'Baking muffins', type: 'video' },
   { src: `${CDN_VIDEO}/${vid('mom_tossing_tay_silly')}`,            caption: 'Being silly', type: 'video' },
 ]
@@ -208,14 +210,14 @@ export const specialMessages = {
 
 export const messagesToMommy = {
   taylor: [
-    { src: `${CDN_VIDEO}/${vid('taylor_1')}`, label: 'Message 1' },
-    { src: `${CDN_VIDEO}/${vid('taylor_2')}`, label: 'Message 2' },
-    { src: `${CDN_VIDEO}/${vid('taylor_3')}`, label: 'Message 3', aspectRatio: 'auto' },
-    { src: `${CDN_VIDEO}/${vid('taylor_4')}`, label: 'Message 4' },
+    { src: `${CDN_VIDEO}/${vid('taylor_1')}`,     label: 'Message 1' },
+    { src: `${CDN_VIDEO}/${vid('taylor_2')}`,     label: 'Message 2' },
+    { src: `${CDN_VIDEO_916}/${vid('taylor_3')}`, label: 'Message 3' },
+    { src: `${CDN_VIDEO}/${vid('taylor_4')}`,     label: 'Message 4' },
   ],
   hallie: [
-    { src: `${CDN_VIDEO}/${vid('hallie_1')}`, label: 'Message 1', aspectRatio: 'auto' },
-    { src: `${CDN_VIDEO}/${vid('hallie_2')}`, label: 'Message 2', aspectRatio: 'auto' },
+    { src: `${CDN_VIDEO_916}/${vid('hallie_1')}`, label: 'Message 1' },
+    { src: `${CDN_VIDEO_916}/${vid('hallie_2')}`, label: 'Message 2' },
   ],
   grammy: `${CDN_VIDEO}/${vid('grammy_video')}`,
   dad: [
