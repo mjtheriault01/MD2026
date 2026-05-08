@@ -210,12 +210,12 @@ export const messagesToMommy = {
   taylor: [
     { src: `${CDN_VIDEO}/${vid('taylor_1')}`, label: 'Message 1' },
     { src: `${CDN_VIDEO}/${vid('taylor_2')}`, label: 'Message 2' },
-    { src: `${CDN_VIDEO}/${vid('taylor_3')}`, label: 'Message 3' },
+    { src: `${CDN_VIDEO}/${vid('taylor_3')}`, label: 'Message 3', aspectRatio: 'auto' },
     { src: `${CDN_VIDEO}/${vid('taylor_4')}`, label: 'Message 4' },
   ],
   hallie: [
-    { src: `${CDN_VIDEO}/${vid('hallie_1')}`, label: 'Message 1' },
-    { src: `${CDN_VIDEO}/${vid('hallie_2')}`, label: 'Message 2' },
+    { src: `${CDN_VIDEO}/${vid('hallie_1')}`, label: 'Message 1', aspectRatio: 'auto' },
+    { src: `${CDN_VIDEO}/${vid('hallie_2')}`, label: 'Message 2', aspectRatio: 'auto' },
   ],
   grammy: `${CDN_VIDEO}/${vid('grammy_video')}`,
   dad: [

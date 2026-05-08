@@ -81,7 +81,7 @@ export default function MediaTile({ photo, index, animDelay = 5 }) {
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: (index % animDelay) * 0.07, ease: [0.22, 1, 0.36, 1] }}
       onClick={isVideo ? togglePlay : undefined}
-      className={`relative overflow-hidden rounded-2xl group ${isVideo ? 'cursor-pointer' : ''} ${isVideo ? 'col-span-2' : ''}`}
+      className={`relative overflow-hidden rounded-2xl group ${isVideo ? 'cursor-pointer' : ''}`}
     >
       {isVideo ? (
         <>

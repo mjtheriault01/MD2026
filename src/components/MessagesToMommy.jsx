@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { messagesToMommy, specialMessages } from '../data/galleryData'
 import VideoPopupButton from './VideoPopupButton'
 
-const HALLIE_COVER = 'https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,c_fill,g_face,z_2.2,w_600,h_600/md26/tay_and_hallie_tub_hallie_smile'
+const HALLIE_COVER = 'https://res.cloudinary.com/dikkdclum/image/upload/f_auto,q_auto,c_fill,g_face,z_1.6,w_600,h_800/md26/baby_hallie'
 
 function BigPlayIcon() {
   return (
@@ -243,7 +243,7 @@ export default function MessagesToMommy() {
           <GroupHeading emoji="🎀" name="Taylor" accent="rose" />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-5" style={{ maxWidth: '1380px' }}>
             {messagesToMommy.taylor.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="rose" aspectRatio="9/16" />
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="rose" aspectRatio={v.aspectRatio || '9/16'} />
             ))}
           </div>
         </div>
@@ -266,7 +266,7 @@ export default function MessagesToMommy() {
           />
           <div className="grid grid-cols-2 gap-5" style={{ maxWidth: '680px' }}>
             {messagesToMommy.hallie.map((v, i) => (
-              <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio="9/16" />
+              <MessageVideoTile key={i} src={v.src} label={v.label} accent="mint" aspectRatio={v.aspectRatio || '9/16'} />
             ))}
           </div>
         </div>
