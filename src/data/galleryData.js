@@ -9,8 +9,8 @@ const WIDE = `${CDN},w_1200,h_800`
 const CDN_VIDEO      = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4'
 const CDN_VIDEO_916  = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,ar_9:16,c_pad,b_black'
 const CDN_VIDEO_169  = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,ar_16:9,c_pad,b_black'
-const CDN_VIDEO_916F = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,w_720,h_1280,c_fill'
-const CDN_VIDEO_169F = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,w_1280,h_720,c_fill'
+const CDN_VIDEO_916F = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,w_720,h_1280,c_pad,b_black'
+const CDN_VIDEO_169F = 'https://res.cloudinary.com/dikkdclum/video/upload/q_auto,f_mp4,w_1280,h_720,c_pad,b_black'
 
 const md26  = (id) => `md26/${id}`
 const vid   = (id) => `md26_videos/${id}.mp4`
