@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLightbox } from '../context/LightboxContext'
 
 function MuteIcon() {
   return (
@@ -26,7 +27,8 @@ function BigPlayIcon() {
   )
 }
 
-export default function MediaTile({ photo, index, animDelay = 5 }) {
+export default function MediaTile({ photo, index, animDelay = 5, group = null, groupIndex = 0 }) {
+  const { openLightbox } = useLightbox()
   const videoRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [muted, setMuted] = useState(false)
@@ -80,8 +82,8 @@ export default function MediaTile({ photo, index, animDelay = 5 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: (index % animDelay) * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      onClick={isVideo ? togglePlay : undefined}
-      className={`relative overflow-hidden rounded-2xl group ${isVideo ? 'cursor-pointer col-span-2' : ''}`}
+      onClick={isVideo ? togglePlay : (group ? () => openLightbox(group, groupIndex) : undefined)}
+      className={`relative overflow-hidden rounded-2xl group ${isVideo ? 'cursor-pointer col-span-2' : group ? 'cursor-zoom-in' : ''}`}
     >
       {isVideo ? (
         <>

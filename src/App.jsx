@@ -14,6 +14,8 @@ import WeddingLetter from './components/WeddingLetter'
 import BirthStory from './components/BirthStory'
 import HeroBackground from './components/HeroBackground'
 import { milestones } from './data/milestones'
+import { LightboxProvider } from './context/LightboxContext'
+import Lightbox from './components/Lightbox'
 
 const featureMilestone = milestones.find((m) => m.isFeature)
 const beforeFeature = milestones.filter((m) => !m.isFeature && m.id < (featureMilestone?.id ?? Infinity))
@@ -167,6 +169,8 @@ function Footer() {
 export default function App() {
   return (
     <PasswordGate>
+      <LightboxProvider>
+      <Lightbox />
       <div className="min-h-screen font-sans" style={{ backgroundColor: '#faf9f6' }}>
         <MusicToggle />
 
@@ -223,6 +227,8 @@ export default function App() {
           <Footer />
         </div>
       </div>
+      </div>
+      </LightboxProvider>
     </PasswordGate>
   )
 }

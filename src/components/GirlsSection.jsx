@@ -33,7 +33,7 @@ export default function GirlsSection() {
         style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
       >
         {girlsPhotos.map((photo, i) => (
-          <MediaTile key={i} photo={photo} index={i} animDelay={4} />
+          <MediaTile key={i} photo={photo} index={i} animDelay={4} group={girlsPhotos} groupIndex={i} />
         ))}
       </div>
     </section>

@@ -34,7 +34,7 @@ export default function MomSection() {
         style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
       >
         {momPhotos.map((photo, i) => (
-          <MediaTile key={i} photo={photo} index={i} animDelay={5} />
+          <MediaTile key={i} photo={photo} index={i} animDelay={5} group={momPhotos} groupIndex={i} />
         ))}
       </div>
     </section>
