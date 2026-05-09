@@ -30,7 +30,7 @@ function SoundIcon() {
   )
 }
 
-function MessageVideoTile({ src, label, accent = 'rose', aspectRatio = '9/16' }) {
+function MessageVideoTile({ src, label, accent = 'rose', aspectRatio = '9/16', showLabel = true }) {
   const videoRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [muted, setMuted] = useState(false)
@@ -133,7 +133,7 @@ function MessageVideoTile({ src, label, accent = 'rose', aspectRatio = '9/16' })
       </AnimatePresence>
 
       {/* Top label — shown when playing */}
-      {isPlaying && (
+      {isPlaying && showLabel && (
         <div className="absolute top-3 left-3 z-20">
           <div className={`${c.btn} backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5`}>
             <div className={`w-1.5 h-1.5 rounded-full ${c.dot} animate-pulse`} />
@@ -281,7 +281,7 @@ export default function MessagesToMommy() {
             <div>
               <GroupHeading emoji="💙" name="Dad" accent="blue" />
               {messagesToMommy.dad.map((v, i) => (
-                <MessageVideoTile key={i} src={v.src} label={v.label} accent="blue" aspectRatio="9/16" />
+                <MessageVideoTile key={i} src={v.src} label={v.label} accent="blue" aspectRatio="9/16" showLabel={false} />
               ))}
             </div>
           </div>
