@@ -17,6 +17,7 @@ import { milestones } from './data/milestones'
 import { LightboxProvider } from './context/LightboxContext'
 import Lightbox from './components/Lightbox'
 import ClosingLetter from './components/ClosingLetter'
+import RevealPage from './components/RevealPage'
 
 const featureMilestone = milestones.find((m) => m.isFeature)
 const beforeFeature = milestones.filter((m) => !m.isFeature && m.id < (featureMilestone?.id ?? Infinity))
@@ -168,6 +169,8 @@ function Footer() {
 }
 
 export default function App() {
+  if (window.location.pathname === '/open') return <RevealPage />
+
   return (
     <PasswordGate>
       <LightboxProvider>
