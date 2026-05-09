@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function PlayIcon() {
@@ -11,6 +11,30 @@ function PlayIcon() {
 
 export default function VideoPopupButton({ url, label, isAudio = false, coverImage = null, className = '' }) {
   const [open, setOpen] = useState(false)
+  const audioRef = useRef(null)
+
+  useEffect(() => {
+    const el = audioRef.current
+    if (!el) return
+    const onPlay  = () => window.dispatchEvent(new CustomEvent('videoPlayStart'))
+    const onPause = () => window.dispatchEvent(new CustomEvent('videoPlayEnd'))
+    el.addEventListener('play', onPlay)
+    el.addEventListener('pause', onPause)
+    el.addEventListener('ended', onPause)
+    return () => {
+      el.removeEventListener('play', onPlay)
+      el.removeEventListener('pause', onPause)
+      el.removeEventListener('ended', onPause)
+    }
+  }, [open]) // re-run when popup opens so ref is attached
+
+  const handleClose = () => {
+    if (audioRef.current && !audioRef.current.paused) {
+      audioRef.current.pause()
+      window.dispatchEvent(new CustomEvent('videoPlayEnd'))
+    }
+    setOpen(false)
+  }
 
   return (
     <>
@@ -36,7 +60,7 @@ export default function VideoPopupButton({ url, label, isAudio = false, coverIma
           >
             <motion.div
               className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
             />
             <motion.div
               className="relative bg-gray-950 rounded-2xl shadow-2xl overflow-hidden max-w-2xl w-full"
@@ -47,7 +71,7 @@ export default function VideoPopupButton({ url, label, isAudio = false, coverIma
             >
               <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
                 <p className="text-white font-medium text-sm">{label}</p>
-                <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white transition-colors">
+                <button onClick={handleClose} className="text-white/50 hover:text-white transition-colors">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-5 h-5">
                     <path d="M18 6L6 18M6 6l12 12" />
                   </svg>
@@ -66,7 +90,7 @@ export default function VideoPopupButton({ url, label, isAudio = false, coverIma
                     </div>
                   )}
                   <div className="p-6 w-full flex justify-center">
-                    <audio src={url} controls autoPlay className="w-full" />
+                    <audio ref={audioRef} src={url} controls autoPlay className="w-full" />
                   </div>
                 </div>
               ) : (
